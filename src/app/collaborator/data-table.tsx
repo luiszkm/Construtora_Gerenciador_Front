@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -38,6 +38,24 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const columnTranslations: Record<string, string> = {
+    id: 'ID',
+    status: 'Status',
+    name: 'Nome',
+    role: 'Cargo',
+    dailyPrice: 'diária',
+    workingDays: 'dias trabalhados',
+    additionalMoney: 'adicional',
+    advanceMoney: 'adiantamento',
+    active: 'ativo',
+    totalFifteenDays: 'quinzena',
+    pixKey: 'chave pix',
+    date: 'data',
+    totalToPay: 'total a pagar',
+    discount: 'desconto',
+  };
+  
+
 
   const table = useReactTable({
     data,
@@ -55,10 +73,45 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     }
   })
-
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        // 📌 Em telas pequenas, mostramos apenas algumas colunas essenciais
+        setColumnVisibility({
+          name: true,
+          role: false,
+          active: false,
+          date: false,
+          status: false,
+        });
+      } else if (window.innerWidth < 1024) {
+        // 📌 Em telas médias, mostramos mais colunas
+        setColumnVisibility({
+          name: true,
+          email: true,
+          phone: false,
+        });
+      } else {
+        // 📌 Em telas grandes, mostramos todas as colunas
+        setColumnVisibility({
+          name: true,
+          email: true,
+          phone: true,
+        });
+      }
+    };
+  
+    handleResize(); // 📌 Definir as colunas corretas ao montar o componente
+    window.addEventListener("resize", handleResize); // 📌 Atualizar ao redimensionar
+  
+    return () => window.removeEventListener("resize", handleResize); // 📌 Limpeza do evento ao desmontar
+  }, []);
+  
   return (
-    <div className='overflow-x-auto max-w-11/12'>
-      <div className="flex items-center py-4">
+    <div className=' max-w-11/12  '>
+      <div className="flex flex-col md:flex-row justify-between items-stretch gap-4 py-3">
+        <div className='flex items-center space-x-4'>
         <Input
           placeholder="filtrar "
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
@@ -70,7 +123,9 @@ export function DataTable<TData, TValue>({
         <Button
         onClick={() => table.resetColumnFilters()}
         >reset</Button>
-          <DropdownMenu>
+        </div>
+         <div >
+         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button title='ocultar colunas' variant="outline" className="ml-auto">
               Colunas
@@ -92,15 +147,16 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {columnTranslations[column.id]?? column.id}
                   </DropdownMenuCheckboxItem>
                 )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+         </div>
       </div>
-      <div className="rounded-md border">
-        <Table>
+      <div className="rounded-md border"> 
+        <Table className='overflow-x-auto  '>
           <TableHeader className='bg-gray-100  '>
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>

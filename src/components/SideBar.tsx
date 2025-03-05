@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export function Sidebar() {
   return (
-    <aside className='max-w-48  max-w-md:flex w-full h-screen border-r p-4 border-gray-700  flex-col justify-between'>
+    <aside className='max-w-48 text-gray-300  max-w-md:flex w-full h-screen border-r p-4 border-gray-700 bg-blue-900 flex flex-col justify-between'>
       <ul className='flex flex-col gap-4 '>
         <li>
           <Link className="flex items-center gap-4 hover:text-orange-500 hover:font-bold

@@ -35,7 +35,7 @@ export type CollaboratorProps = {
   active: boolean
   totalFifteenDays: number
   pixKey: string
-  date?: Date
+  date: Date
   totalToPay: number
   discount: number
 }
