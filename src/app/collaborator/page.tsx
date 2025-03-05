@@ -1,50 +1,11 @@
-import { Payment, columns } from "./columns"
+import { GET } from "../api/collaborators/route"
+import { CollaboratorProps, columns } from "./columns"
 import { DataTable } from "./data-table"
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "1",
-      dailyPrice: 100,
-      status: "aguardando",
-      name: "Pedro",
-      role: "ajudante",
-      workingDays: 10,
-      additionalMoney: 50,
-      advanceMoney: 0,
-      active: true,
-      pixKey: "dadadadadadad333",
-      totalFifteenDays: 0,
-    },
-    {
-      id: "2",
-      dailyPrice: 150,
-      status: "pago",
-      name: "Irineu",
-      role: "pedreiro",
-      workingDays: 15,
-      additionalMoney: 150,
-      advanceMoney: 100,
-      active: true,
-      pixKey: "32323211",
-      totalFifteenDays: 0,
-    },
-    {
-      id: "3",
-      dailyPrice: 150,
-      status: "pago",
-      name: "zina",
-      role: "pedreiro",
-      workingDays: 15,
-      additionalMoney: 150,
-      advanceMoney: 100,
-      active: true,
-      pixKey: "32323211",
-      totalFifteenDays: 0,
-    },
-    // ...
-  ]
+async function getData(): Promise<CollaboratorProps[]> {
+  const collaborators = await GET()
+  return collaborators
+
 }
 
 export default async function Collaborator (){

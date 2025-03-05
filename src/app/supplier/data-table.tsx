@@ -24,14 +24,6 @@ import {
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -64,7 +56,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className='overflow-x-auto max-w-11/12'>
+    <div className='overflow-x-auto'>
       <div className="flex items-center py-4">
         <Input
           placeholder="filtrar "

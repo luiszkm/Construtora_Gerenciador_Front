@@ -6,12 +6,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 import { Button } from './ui/button'
 import { ArrowUpDown } from 'lucide-react'
 import { Input } from './ui/input'
 
-type Checked = DropdownMenuCheckboxItemProps['checked']
 
 interface THeadProps {
   columnName: string
