@@ -15,11 +15,9 @@ import { Thead } from '@/components/Thead'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
 } from '@/components/ui/dialog'
 import { Label } from '@radix-ui/react-dropdown-menu'
 import { Input } from '@/components/ui/input'
@@ -321,7 +319,7 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
         pixKey: collaborator.pixKey,
       });
 
-      const handleChange = (e: { target: { name: any; value: any } }) => {
+      const handleChange = (e: { target: { name: string; value: unknown } }) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
           ...prevState,

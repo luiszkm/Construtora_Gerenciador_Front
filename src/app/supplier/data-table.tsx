@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className='overflow-x-auto'>
+    <div className='overflow-x-auto w-full max-w-11/12'>
       <div className="flex items-center py-4">
         <Input
           placeholder="filtrar "

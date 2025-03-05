@@ -166,5 +166,37 @@
       "pixKey": null,
       "totalFifteenDays": 100
     }
+  ],
+  "fornecedor": [
+    {
+      "id": "1",
+      "name": "Fornecedor A",
+      "phone": "31999999999",
+       "owner":  "Joao",
+      "active": true,
+      "obs": "ficou devendo",
+      "price": "3000",
+       "discount": "300",
+      "materials": [
+        {
+          "id": "1",
+          "name": "Cimento",
+          "quantity": 10,
+          "unitPrice": 80
+        },
+        {
+          "id": "2",
+          "name": "Terra",
+          "quantity": 10,
+          "unitPrice": 50
+        },
+        {
+          "id": "3",
+          "name": "Pedra",
+          "quantity": 10,
+          "unitPrice": 100
+        }
+      ]
+    }
   ]
 }
