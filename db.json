@@ -1,22 +1,24 @@
 {
   "funcionarios": [
     {
-      "name": "Irineu",
-      "role": "Pedreiro",
-      "dailyPrice": 215,
-      "workingDays": "14",
-      "additionalMoney": 5609,
-      "advanceMoney": 10,
-      "discount": 10,
-      "pixKey": "31 989691395",
       "id": "1",
-      "status": "ok",
-      "date": "2025-03-04"
+      "dailyPrice": 215,
+      "status": "pago",
+      "name": "Gessi",
+      "role": "Pedreiro",
+      "workingDays": 10,
+      "additionalMoney": 80.9,
+      "advanceMoney": 0,
+      "active": true,
+      "date": "2025-03-04",
+      "discount": 0,
+      "pixKey": "31 993386467",
+      "totalFifteenDays": 2230.9
     },
     {
       "id": "2",
       "dailyPrice": 215,
-      "status": "ok",
+      "status": "pendente",
       "name": "Gessi",
       "role": "Pedreiro",
       "workingDays": 10,
@@ -31,7 +33,7 @@
     {
       "id": "3",
       "dailyPrice": 215,
-      "status": "ok",
+      "status": "pago",
       "name": "Valdeci",
       "role": "Pedreiro",
       "workingDays": 10,
@@ -45,23 +47,23 @@
     },
     {
       "id": "4",
-      "dailyPrice": 150,
-      "status": "ok",
-      "name": "Arthur",
+      "dailyPrice": 215,
+      "status": "pendente",
+      "name": "Gessi",
       "role": "Pedreiro",
-      "workingDays": 8,
-      "additionalMoney": 119,
+      "workingDays": 10,
+      "additionalMoney": 80.9,
       "advanceMoney": 0,
       "active": true,
       "date": "2025-03-04",
       "discount": 0,
-      "pixKey": "31 982806794",
-      "totalFifteenDays": 1295.1
+      "pixKey": "31 993386467",
+      "totalFifteenDays": 2230.9
     },
     {
       "id": "5",
       "dailyPrice": 120,
-      "status": "ok",
+      "status": "pago",
       "name": "Ederson nv",
       "role": "Ajudante",
       "workingDays": 4,
@@ -76,7 +78,7 @@
     {
       "id": "6",
       "dailyPrice": 150,
-      "status": "ok",
+      "status": "pago",
       "name": "Juscelio",
       "role": "Ajudante",
       "workingDays": 9,
@@ -91,7 +93,7 @@
     {
       "id": "7",
       "dailyPrice": 100,
-      "status": "ok",
+      "status": "pago",
       "name": "Pablo",
       "role": "Ajudante",
       "workingDays": 4,
@@ -106,7 +108,7 @@
     {
       "id": "8",
       "dailyPrice": 130,
-      "status": "ok",
+      "status": "pago",
       "name": "Rafael",
       "role": "Ajudante",
       "workingDays": 9,
@@ -121,7 +123,7 @@
     {
       "id": "9",
       "dailyPrice": 100,
-      "status": "ok",
+      "status": "pago",
       "name": "Eulio",
       "role": "Ajudante",
       "workingDays": 9,
@@ -136,7 +138,7 @@
     {
       "id": "10",
       "dailyPrice": 100,
-      "status": "ok",
+      "status": "pago",
       "name": "Raumil",
       "role": "Ajudante",
       "workingDays": 2,
@@ -151,7 +153,7 @@
     {
       "id": "11",
       "dailyPrice": 100,
-      "status": "ok",
+      "status": "pago",
       "name": "Richard",
       "role": "Ajudante",
       "workingDays": 5.5,
@@ -166,7 +168,7 @@
     {
       "id": "12",
       "dailyPrice": 100,
-      "status": "ok",
+      "status": "pago",
       "name": "Cacique",
       "role": "Ajudante",
       "workingDays": 1,
@@ -184,12 +186,12 @@
       "id": "1",
       "name": "Fornecedor A",
       "phone": "31999999999",
-       "owner":  "Joao",
-      "active": true,
+      "owner": "Joao",
+      "active": false,
       "date": "2025-03-04",
       "obs": "ficou devendo",
       "price": "3000",
-       "discount": "300",
+      "discount": "300",
       "materials": [
         {
           "id": "1",
@@ -210,6 +212,123 @@
           "unitPrice": 100
         }
       ]
+    },
+    {
+      "id": "2",
+      "name": "Fornecedor B",
+      "phone": "31999999999",
+      "owner": "Joao",
+      "active": true,
+      "date": "2025-03-04",
+      "obs": "ficou devendo",
+      "price": "3000",
+      "discount": "300",
+      "materials": [
+        {
+          "id": "4",
+          "name": "Madeira",
+          "quantity": 10,
+          "unitPrice": 80
+        },
+        {
+          "id": "4",
+          "name": "Metais",
+          "quantity": 10,
+          "unitPrice": 50
+        },
+        {
+          "id": "8",
+          "name": "Tintas",
+          "quantity": 10,
+          "unitPrice": 100
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Fornecedor C",
+      "phone": "31999999999",
+      "owner": "Joao",
+      "active": true,
+      "date": "2025-03-04",
+      "obs": "ficou devendo",
+      "price": "3000",
+      "discount": "300",
+      "materials": [
+        {
+          "id": "6",
+          "name": "Tijolos",
+          "quantity": 10,
+          "unitPrice": 80
+        },
+        {
+          "id": "2",
+          "name": "Terra",
+          "quantity": 10,
+          "unitPrice": 50
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Fornecedor A",
+      "phone": "31999999999",
+      "owner": "Joao",
+      "active": true,
+      "date": "2025-03-04",
+      "obs": "ficou devendo",
+      "price": "3000",
+      "discount": "300",
+      "materials": [
+        {
+          "id": "7",
+          "name": "Telhas",
+          "quantity": 10,
+          "unitPrice": 80
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": "1",
+      "name": "Cimento"
+    },
+    {
+      "id": "2",
+      "name": "Terra"
+    },
+    {
+      "id": "3",
+      "name": "Pedra"
+    },
+    {
+      "id": "4",
+      "name": "Madeira"
+    },
+    {
+      "id": "5",
+      "name": "Metais"
+    },
+    {
+      "id": "6",
+      "name": "Tijolos"
+    },
+    {
+      "id": "7",
+      "name": "Telhas"
+    },
+    {
+      "id": "8",
+      "name": "Tintas"
+    },
+    {
+      "id": "9",
+      "name": "Ferramentas"
+    },
+    {
+      "id": "10",
+      "name": "Outros"
     }
   ]
 }

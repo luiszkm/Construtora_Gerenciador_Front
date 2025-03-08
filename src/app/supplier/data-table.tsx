@@ -28,11 +28,13 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  materials: TData[] 
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data, 
+  materials
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -59,10 +61,10 @@ export function DataTable<TData, TValue>({
     <div className='overflow-x-auto  max-w-11/12'>
       <div className="flex items-center py-4">
         <Input
-          placeholder="filtrar "
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          placeholder="filtrar por materiais"
+          value={(table.getColumn('materials')?.getFilterValue() as string) ?? ''}
           onChange={event =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
+            table.getColumn('materials')?.setFilterValue(event.target.value)
           }
           className="max-w-sm mr-4"
         />

@@ -25,7 +25,7 @@ import { useState } from 'react'
 
 export type CollaboratorProps = {
   id: string
-  status: 'aguardando' | 'pago'
+  status: 'pendente' | 'pago'
   name: string
   role: 'pedreiro' | 'ajudante'
   dailyPrice: number
@@ -89,6 +89,11 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
       )
+    },
+    cell: ({ row }) => {
+      const status = row.getValue('status') as string
+      return <div style={{color: status === 'pendente' ? 'red' : 'green'}}
+       className="text-center font-medium">{status}</div>
     }
   },
   {
@@ -279,8 +284,8 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
   {
     accessorKey: 'date',
     header: 'Quinzena',
-    cell: () => {
-      const date = new Date().toLocaleDateString('pt-BR', {
+    cell: ({ row }) => {
+      const date = new Date(String(row.getValue('pixKey'))).toLocaleDateString('pt-BR', {
         month: 'numeric',
         day: 'numeric',
         year: 'numeric'
@@ -333,7 +338,6 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
         formData.discount = parseFloat(String(formData.discount).replace('R$', '').replace('.', '').replace(',', '.'));
         formData.pixKey = String(formData.pixKey).trim();
         const updatedData = {  ...formData };
-        console.log(updatedData);
         const response = await fetch(`api/collaborators?id=${collaborator.id}`, {
           method: 'PUT',
           headers: {
