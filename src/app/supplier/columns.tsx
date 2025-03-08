@@ -1,7 +1,7 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, PlusCircle, Trash } from 'lucide-react'
+import { MoreHorizontal, PlusCircle, Star, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -32,8 +32,15 @@ type MaterialsProps = {
 }
 
 export type MaterialDbProps = {
-  id: string
   name: string
+}
+
+type BudgetsProps = {
+  id: string
+  idSupplier: string
+  jobId: string
+  date: Date
+  materials: MaterialsProps[]
 }
 
 export type SupplierProps = {
@@ -41,10 +48,12 @@ export type SupplierProps = {
   name: string
   phone: string
   owner: string
+  budget: BudgetsProps[]
+  address: string
+  email: string
   active: boolean
-  price: number
-  date?: Date
-  discount: number
+  rate: number
+  obs: string
   materials: MaterialsProps[]
   materialsDb: MaterialDbProps[]
 }
@@ -56,6 +65,8 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { GETMaterials } from '../api/materials/route'
+import { Rate } from '@/components/Rate'
+import { MaterialList } from '@/components/MaterialList'
 
 async function getMaterials() {
   const response = await GETMaterials()
@@ -158,7 +169,6 @@ export const columns: ColumnDef<SupplierProps>[] = [
       )
     },
     cell: ({ row }) => {
-      const materials = row.getValue('materials') as MaterialsProps[]
       const supplier: SupplierProps = row.original
       const [isDialogOpen, setIsDialogOpen] = useState(false)
       const [createdMaterial, setCreatedMaterial] = useState(false)
@@ -194,7 +204,6 @@ export const columns: ColumnDef<SupplierProps>[] = [
       }
       const handleSave = async () => {
         const updatedData = { ...formDataMaterial }
-        console.log(updatedData)
         const response = await fetch(`api/collaborators?id=${supplier.id}`, {
           method: 'PUT',
           headers: {
@@ -216,14 +225,13 @@ export const columns: ColumnDef<SupplierProps>[] = [
 
       const handleVerifyMaterial = (value: string) => {
         const contains = materialsSelect.filter(
-          material =>material.name.toLowerCase() === value.toLowerCase()
+          material => material.name.toLowerCase() === value.toLowerCase()
         )
         if (contains.length > 0) {
           setMaterialExistis(true)
-        }else{
+        } else {
           setMaterialExistis(false)
         }
-
       }
 
       useEffect(() => {
@@ -261,7 +269,10 @@ export const columns: ColumnDef<SupplierProps>[] = [
                       <SelectContent>
                         {materialsSelect &&
                           materialsSelect?.map((material: MaterialDbProps) => (
-                            <SelectItem key={material.id} value={material.id}>
+                            <SelectItem
+                              key={material.name}
+                              value={material.name}
+                            >
                               {material.name}
                             </SelectItem>
                           ))}
@@ -285,13 +296,12 @@ export const columns: ColumnDef<SupplierProps>[] = [
                         value={formDataMaterial.name}
                         onChange={handleChange}
                         className="col-span-3"
-                        
                       />
-                      {
-                        materialExistis && (
-                          <p className="text-red-500 text-sm mt-1">Este material já está cadastrado.</p>
-                        )
-                      }
+                      {materialExistis && (
+                        <p className="text-red-500 text-sm mt-1">
+                          Este material já está cadastrado.
+                        </p>
+                      )}
                       <Button
                         onClick={() =>
                           handleVerifyMaterial(formDataMaterial.name)
@@ -302,25 +312,6 @@ export const columns: ColumnDef<SupplierProps>[] = [
                       </Button>
                     </div>
                   )}
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Preço</Label>
-                    <Input
-                      name="unitPrice"
-                      value={formDataMaterial.unitPrice}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Quantidade</Label>
-                    <Input
-                      type="number"
-                      name="quantity"
-                      value={formDataMaterial.quantity}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
                 </div>
                 <DialogFooter>
                   <Button type="submit">Criar</Button>
@@ -328,7 +319,7 @@ export const columns: ColumnDef<SupplierProps>[] = [
               </form>
             </DialogContent>
           </Dialog>
-          {materials.map((material: MaterialsProps, index: number) => (
+          {supplier.materials.map((material: MaterialsProps, index: number) => (
             <div key={index}>{material.name}</div>
           ))}
         </div>
@@ -343,7 +334,7 @@ export const columns: ColumnDef<SupplierProps>[] = [
     }
   },
   {
-    accessorKey: 'price',
+    accessorKey: 'rate',
     header: ({ column }) => {
       return (
         <Thead
@@ -351,25 +342,18 @@ export const columns: ColumnDef<SupplierProps>[] = [
           valueFilter={String(
             column.getFilterValue() === undefined ? '' : column.getFilterValue()
           )}
-          columnName="Preço"
+          columnName="Avaliação"
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
       )
     },
     cell: ({ row }) => {
-      const discount = parseFloat(row.getValue('price'))
-      const formatted = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(discount)
-
-      return (
-        <div className="text-right text-green-500 font-medium">{formatted}</div>
-      )
+      const rate = parseInt(row.getValue('rate'))
+      return <Rate rate={rate} obs={row.original.obs} />
     }
   },
   {
-    accessorKey: 'discount',
+    accessorKey: 'budget',
     header: ({ column }) => {
       return (
         <Thead
@@ -377,34 +361,26 @@ export const columns: ColumnDef<SupplierProps>[] = [
           valueFilter={String(
             column.getFilterValue() === undefined ? '' : column.getFilterValue()
           )}
-          columnName="Descontos"
+          columnName="Orçamentos"
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
       )
     },
-    cell: ({ row }) => {
-      const discount = parseFloat(row.getValue('discount'))
-      const formatted = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(discount)
-
-      return (
-        <div className="text-right text-red-500 font-medium">{formatted}</div>
-      )
-    }
-  },
-  {
-    accessorKey: 'date',
-    header: 'Quinzena',
     cell: () => {
-      const date = new Date().toLocaleDateString('pt-BR', {
-        month: 'numeric',
-        day: 'numeric',
-        year: 'numeric'
-      })
-      return <span>{date}</span>
+      return <Button variant="ghost">Orçamentos</Button>
     }
+  },
+  {
+    accessorKey: 'address',
+    header: 'Endereço',
+    cell: ({ row }) => {
+      const address = row.getValue('address') as string
+      return <span>{address}</span>
+    }
+  },
+  {
+    accessorKey: 'email',
+    header: 'Email'
   },
   {
     accessorKey: 'active',
@@ -422,20 +398,29 @@ export const columns: ColumnDef<SupplierProps>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const active = row.getValue('active')
       const supplier: SupplierProps = row.original
       const [materials, setMaterials] = useState(supplier.materials)
-
-      const [isDialogOpen, setIsDialogOpen] = useState(false)
+      const [rating, setRating] = useState(supplier.rate)
+      const [createdMaterial, setCreatedMaterial] = useState(false)
+      const [materialExistis, setMaterialExistis] = useState(false)
+      const [materialsSelect, setMaterialsSelect] = useState<MaterialDbProps[]>(
+        []
+      ) // data from database
+      const [selectedMaterial, setSelectedMaterial] = useState<string>('')
+      const [isDialogOpen, setIsDialogOpen] = useState(true)
+      const [newMaterial, setNewMaterial] = useState('')
+      const [materialInput, setMaterialInput] = useState('')
 
       const [formData, setFormData] = useState({
         name: supplier.name,
         phone: supplier.phone,
         owner: supplier.owner,
         active: supplier.active,
-        TotalPrice: supplier.price,
         materials: materials,
-        discount: supplier.discount
+        email: supplier.email,
+        address: supplier.address,
+        rate: supplier.rate,
+        obs: supplier.obs
       })
 
       const handleChange = (e: {
@@ -448,18 +433,47 @@ export const columns: ColumnDef<SupplierProps>[] = [
         }))
       }
 
-      const handleRemoveMaterial = (name: string) => {
-        const updatedMaterials = materials.filter(material => material.name !== name)
-        setMaterials(updatedMaterials)
-        setFormData(prevState => ({
-          ...prevState,
-          materials: updatedMaterials
-        }))
+    
+
+      const handleCreateMaterial = () => {
+        setCreatedMaterial(true)
+        setSelectedMaterial('')
+      }
+      const handleVerifyMaterial = () => {
+        if (!materialInput.trim()) return;
+    
+        // Verifica se o material já existe no select
+        const exists = materialsSelect.some((mat) => mat.name.toLowerCase() === materialInput.toLowerCase());
+    
+        if (exists) {
+          setMaterialExistis(true);
+          return;
+        }
+    
+        setMaterialsSelect([...materialsSelect, { name: materialInput }]);
+        setMaterials([...materials, { id: '', name: materialInput, quantity: 0, unitPrice: 0, total: 0 }]);
+        setMaterialInput("");
+        setCreatedMaterial(false);
+        setMaterialExistis(false);
+        const contains = materialsSelect.filter(
+          material => material.name.toLowerCase() === materialInput.toLowerCase()
+        )
+        if (contains.length > 0) {
+          setMaterialExistis(true)
+          return true
+        } else {
+          setMaterialExistis(false)
+          return false
+        }
       }
 
+      const handleSelectChange = (value: string) => {
+        setSelectedMaterial(value)
+        setNewMaterial(value)
+        setCreatedMaterial(false)
+      }
       const handleSave = async () => {
-        const updatedData = { ...formData, }
-        console.log(updatedData)
+        const updatedData = { ...formData }
         const response = await fetch(`api/materials?id=${supplier.id}`, {
           method: 'PUT',
           headers: {
@@ -475,6 +489,13 @@ export const columns: ColumnDef<SupplierProps>[] = [
           console.log('Erro ao atualizar colaborador')
         }
       }
+      useEffect(() => {
+        async function fetchMaterials() {
+          const response = await getMaterials()
+          setMaterialsSelect(response)
+        }
+        fetchMaterials()
+      }, [])
       return (
         <>
           <DropdownMenu>
@@ -490,7 +511,7 @@ export const columns: ColumnDef<SupplierProps>[] = [
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleActive(supplier)}>
-                {active ? 'Desativar' : 'Ativar'}
+                {supplier.active ? 'Desativar' : 'Ativar'}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -501,75 +522,155 @@ export const columns: ColumnDef<SupplierProps>[] = [
                 <DialogTitle>Editar Fornecedor</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSave}>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Nome</Label>
-                    <Input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Atendente</Label>
-                    <Input
-                      name="role"
-                      value={formData.owner}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Contato</Label>
-                    <Input
-                      type="number"
-                      name="workingDays"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Descontos</Label>
-                    <Input
-                      name="discount"
-                      value={formData.discount.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL'
-                      })}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">Preço</Label>
-                    <Input
-                      name="totalPrice"
-                      value={formData.TotalPrice.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL'
-                      })}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className='flex items-center gap-4'>
-                  {materials && formData.materials.map(material =>(
-                    <div key={material.name} className=" p-1 rounded-lg flex text-xs items-center gap-2 border border-orange-600">
-                        {material.name}
-                        <Trash width={16}
-                        onClick={() =>handleRemoveMaterial(material.name) }
-                          />
+                <div className="grid gap-2 py-2">
+                  <div className="flex items-center gap-2">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Nome</Label>
+                      <Input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
                     </div>
-                  ))}
+
+                    <div className="flex flex-col items-start ">
+                      <Label className="text-right">Contato</Label>
+                      <Input
+                        type="number"
+                        name="workingDays"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
                   </div>
-                 
+                  <div className="flex items-center gap-2">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Email</Label>
+                      <Input
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-start ">
+                      <Label className="text-right">Atendente</Label>
+                      <Input
+                        name="owner"
+                        value={formData.owner}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Endereço</Label>
+                      <Input
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-start ">
+                      <Label className="text-right">Observação</Label>
+                      <Input
+                        name="obs"
+                        value={formData.obs}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="flex space-x-2">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <Star
+                            key={star}
+                            onClick={() => setRating(star)}
+                            className={`w-4 h-4 cursor-pointer transition-colors duration-300 text-gray-500
+                            ${
+                              star <= rating
+                                ? 'fill-orange-600'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-start gap-4">
+                    <div className="flex items-center gap-4">
+                      <Select
+                        value={selectedMaterial}
+                        onValueChange={handleSelectChange}
+                      >
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Materiais" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {materialsSelect &&
+                            materialsSelect?.map(
+                              (material: MaterialDbProps) => (
+                                <SelectItem
+                                  key={material.name}
+                                  value={material.name}
+                                >
+                                  {material.name}
+                                </SelectItem>
+                              )
+                            )}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        type="button"
+                        className="cursor-pointer text-green-600"
+                        onClick={() => handleCreateMaterial()}
+                      >
+                        cadastrar
+                      </Button>
+
+                      {createdMaterial && (
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-start flex-col">
+                            <Input
+                              style={{
+                                border: materialExistis ? '1px solid red' : ''
+                              }}
+                              name="name"
+                              value={materialInput}
+                              onChange={e => setMaterialInput(e.target.value)}
+                              className="col-span-3"
+                            />
+                            {materialExistis && (
+                              <small className="text-red-500 text-xm mt-1">
+                                Este material já está cadastrado.
+                              </small>
+                            )}
+                          </div>
+                          <PlusCircle className="cursor-pointer text-green-600"onClick={() => handleVerifyMaterial()} />
+                        </div>
+                      )}
+                    </div>
+
+                    <MaterialList
+                      isInputValue={createdMaterial}
+                      materials={materials}
+                      newMaterial={newMaterial}
+                      setMaterials={setMaterials}
+                    />
+                  </div>
                 </div>
                 <DialogFooter>
-                  <Button
-                  onClick={handleSave}
-                   type="submit">Salvar</Button>
+                  <Button onClick={handleSave} type="submit">
+                    Salvar
+                  </Button>
                 </DialogFooter>
               </form>
             </DialogContent>

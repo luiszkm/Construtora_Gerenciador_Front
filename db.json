@@ -190,8 +190,7 @@
       "active": false,
       "date": "2025-03-04",
       "obs": "ficou devendo",
-      "price": "3000",
-      "discount": "300",
+      "rate": 4,
       "materials": [
         {
           "id": "1",
@@ -221,8 +220,7 @@
       "active": true,
       "date": "2025-03-04",
       "obs": "ficou devendo",
-      "price": "3000",
-      "discount": "300",
+      "rate": 4,
       "materials": [
         {
           "id": "4",
@@ -252,8 +250,7 @@
       "active": true,
       "date": "2025-03-04",
       "obs": "ficou devendo",
-      "price": "3000",
-      "discount": "300",
+      "rate": 4,
       "materials": [
         {
           "id": "6",
@@ -277,8 +274,7 @@
       "active": true,
       "date": "2025-03-04",
       "obs": "ficou devendo",
-      "price": "3000",
-      "discount": "300",
+      "rate": 4,
       "materials": [
         {
           "id": "7",
@@ -303,8 +299,21 @@
       "name": "Pedra"
     },
     {
-      "id": "4",
-      "name": "Madeira"
+      "name": "Fornecedor A",
+      "phone": "31999999999",
+      "owner": "Joao",
+      "active": true,
+      "materials": [
+        {
+          "id": "7",
+          "name": "Telhas",
+          "quantity": 10,
+          "unitPrice": 80
+        }
+      ],
+      "rate": 4,
+      "obs": "ficou devendo",
+      "id": "4"
     },
     {
       "id": "5",
