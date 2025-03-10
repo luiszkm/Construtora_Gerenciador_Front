@@ -1,4 +1,3 @@
-import { Rate } from "@/components/Rate"
 import { GETMaterials } from "../api/materials/route"
 import { GET } from "../api/supplier/route"
 import { columns } from "./columns"
@@ -11,11 +10,6 @@ export default async function Supplier (){
     <main className="w-full">
       Supplier Page
       <DataTable columns={columns} data={data} materials={materials} />
-      <Rate
-        rate={4}
-        obs="cliente
-        muito ruim"
-      />
     </main>
   )
 }

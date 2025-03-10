@@ -32,7 +32,7 @@ export const MaterialList = ({ materials, newMaterial, setMaterials, isInputValu
   };
 
   return (
-    <div className="flex flex-col gap-2">{
+    <div className="grid grid-cols-5 gap-2">{
       !isInputValue && (
         <PlusCircle className="cursor-pointer text-green-600" onClick={addMaterial} />
       )
