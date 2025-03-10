@@ -1,7 +1,7 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -17,11 +17,13 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog'
 import { Label } from '@radix-ui/react-dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
+import { Rate } from '@/components/Rate'
+import { Textarea } from '@/components/ui/textarea'
 
 export type CollaboratorProps = {
   id: string
@@ -38,6 +40,8 @@ export type CollaboratorProps = {
   date: Date
   totalToPay: number
   discount: number
+  rate: number
+  obs: string
 }
 
 async function handleActive(collaborator: CollaboratorProps) {
@@ -92,8 +96,14 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
     },
     cell: ({ row }) => {
       const status = row.getValue('status') as string
-      return <div style={{color: status === 'pendente' ? 'red' : 'green'}}
-       className="text-center font-medium">{status}</div>
+      return (
+        <div
+          style={{ color: status === 'pendente' ? 'red' : 'green' }}
+          className="text-center font-medium"
+        >
+          {status}
+        </div>
+      )
     }
   },
   {
@@ -285,12 +295,23 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
     accessorKey: 'date',
     header: 'Quinzena',
     cell: ({ row }) => {
-      const date = new Date(String(row.getValue('pixKey'))).toLocaleDateString('pt-BR', {
-        month: 'numeric',
-        day: 'numeric',
-        year: 'numeric'
-      })
+      const date = new Date(String(row.getValue('pixKey'))).toLocaleDateString(
+        'pt-BR',
+        {
+          month: 'numeric',
+          day: 'numeric',
+          year: 'numeric'
+        }
+      )
       return <span>{date}</span>
+    }
+  },
+  {
+    accessorKey: 'rate',
+    header: 'Observação',
+    cell: ({ row }) => {
+      const dataRow = row.original
+      return <Rate rate={dataRow.rate} obs={dataRow.obs} />
     }
   },
   {
@@ -311,7 +332,8 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
     cell: ({ row }) => {
       const active = row.getValue('active')
       const collaborator: CollaboratorProps = row.original
-      const [isDialogOpen, setIsDialogOpen] = useState(false);
+      const [isDialogOpen, setIsDialogOpen] = useState(false)
+      const [rating, setRating] = useState(collaborator.rate)
 
       const [formData, setFormData] = useState({
         name: collaborator.name,
@@ -322,37 +344,64 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
         advanceMoney: collaborator.advanceMoney,
         discount: collaborator.discount,
         pixKey: collaborator.pixKey,
-      });
+        obs: collaborator.obs,
+        rate: collaborator.rate
+      })
 
-      const handleChange = (e: { target: { name: string; value: unknown } }) => {
-        const { name, value } = e.target;
-        setFormData((prevState) => ({
+      const handleChange = (e: {
+        target: { name: string; value: unknown }
+      }) => {
+        const { name, value } = e.target
+        setFormData(prevState => ({
           ...prevState,
-          [name]: value,
-        }));
-      };
+          [name]: value
+        }))
+      }
       const handleSave = async () => {
-        formData.dailyPrice = parseFloat(String(formData.dailyPrice).replace('R$', '').replace('.', '').replace(',', '.'));
-        formData.additionalMoney = parseFloat(String(formData.additionalMoney).replace('R$', '').replace('.', '').replace(',', '.'));
-        formData.advanceMoney = parseFloat(String(formData.advanceMoney).replace('R$', '').replace('.', '').replace(',', '.'));
-        formData.discount = parseFloat(String(formData.discount).replace('R$', '').replace('.', '').replace(',', '.'));
-        formData.pixKey = String(formData.pixKey).trim();
-        const updatedData = {  ...formData };
-        const response = await fetch(`api/collaborators?id=${collaborator.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedData),
-        });
+        formData.dailyPrice = parseFloat(
+          String(formData.dailyPrice)
+            .replace('R$', '')
+            .replace('.', '')
+            .replace(',', '.')
+        )
+        formData.additionalMoney = parseFloat(
+          String(formData.additionalMoney)
+            .replace('R$', '')
+            .replace('.', '')
+            .replace(',', '.')
+        )
+        formData.advanceMoney = parseFloat(
+          String(formData.advanceMoney)
+            .replace('R$', '')
+            .replace('.', '')
+            .replace(',', '.')
+        )
+        formData.discount = parseFloat(
+          String(formData.discount)
+            .replace('R$', '')
+            .replace('.', '')
+            .replace(',', '.')
+        )
+        formData.pixKey = String(formData.pixKey).trim()
+        const updatedData = { ...formData }
+        const response = await fetch(
+          `api/collaborators?id=${collaborator.id}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedData)
+          }
+        )
 
         if (response.ok) {
-          console.log('Colaborador atualizado com sucesso');
-          setIsDialogOpen(false);
+          console.log('Colaborador atualizado com sucesso')
+          setIsDialogOpen(false)
         } else {
-          console.log('Erro ao atualizar colaborador');
+          console.log('Erro ao atualizar colaborador')
         }
-      };
+      }
       return (
         <>
           <DropdownMenu>
@@ -377,108 +426,146 @@ export const columns: ColumnDef<CollaboratorProps>[] = [
           </DropdownMenu>
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Editar Colaborador</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSave}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Nome</Label>
-              <Input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Cargo</Label>
-              <Input
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Diária</Label>
-              <Input
-                name="dailyPrice"
-                value={formData.dailyPrice.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                })}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Dias Trabalhados</Label>
-              <Input
-                type='number'
-                name="workingDays"
-                value={formData.workingDays}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Adicional</Label>
-              <Input
-                name="additionalMoney"
-                value={formData.additionalMoney.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                })}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Adiantamento</Label>
-              <Input
-                name="advanceMoney"
-                value={formData.advanceMoney.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                })}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Descontos</Label>
-              <Input
-                name="discount"
-                value={formData.discount.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                })}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">PIX</Label>
-              <Input
-                name="pixKey"
-                value={formData.pixKey}
-                onChange={handleChange}
-                className="col-span-3"
-              />
-            </div>
-            
-            {/* Adicione mais campos conforme necessário */}
-          </div>
-          <DialogFooter>
-            <Button type="submit">Salvar</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Editar Colaborador</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSave}>
+                <div className="flex flex-col gap-1 ">
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Nome</Label>
+                      <Input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Cargo</Label>
+                      <Input
+                        name="role"
+                        value={formData.role}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Diária</Label>
+                      <Input
+                        name="dailyPrice"
+                        value={formData.dailyPrice.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL'
+                        })}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Dias Trabalhados</Label>
+                      <Input
+                        type="number"
+                        name="workingDays"
+                        value={formData.workingDays}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Adicional</Label>
+                      <Input
+                        name="additionalMoney"
+                        value={formData.additionalMoney.toLocaleString(
+                          'pt-BR',
+                          {
+                            style: 'currency',
+                            currency: 'BRL'
+                          }
+                        )}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Adiantamento</Label>
+                      <Input
+                        name="advanceMoney"
+                        value={formData.advanceMoney.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL'
+                        })}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">Descontos</Label>
+                      <Input
+                        name="discount"
+                        value={formData.discount.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL'
+                        })}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <Label className="text-right">PIX</Label>
+                      <Input
+                        name="pixKey"
+                        value={formData.pixKey}
+                        onChange={handleChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-start ">
+                    <Label className="text-right">Observação</Label>
+                    <Textarea 
+                      name="obs"
+                      value={formData.obs}
+                      onChange={handleChange}
+                      className="max-w-10/12"
+                    />
+                  </div>
+
+                  <div className="flex space-x-2">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <Star
+                        key={star}
+                        onClick={() => setRating(star)}
+                        className={`w-4 h-4 cursor-pointer transition-colors duration-300 text-gray-500
+                            ${
+                              star <= rating
+                                ? 'fill-orange-600'
+                                : 'text-gray-300'
+                            }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <DialogFooter>
+                  <Button type="submit">Salvar</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
           </Dialog>
         </>
-      );
+      )
     }
   }
 ]
