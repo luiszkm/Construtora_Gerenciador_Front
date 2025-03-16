@@ -67,6 +67,7 @@ import {
 import { GETMaterials } from '../api/materials/route'
 import { Rate } from '@/components/Rate'
 import { MaterialList } from '@/components/MaterialList'
+import Link from 'next/link'
 
 async function getMaterials() {
   const response = await GETMaterials()
@@ -366,8 +367,8 @@ export const columns: ColumnDef<SupplierProps>[] = [
         />
       )
     },
-    cell: () => {
-      return <Button variant="ghost">Orçamentos</Button>
+    cell: ({row}) => {
+      return <Link href={`budget/${row.id}`} >Orçamentos</Link>
     }
   },
   {
@@ -407,7 +408,7 @@ export const columns: ColumnDef<SupplierProps>[] = [
         []
       ) // data from database
       const [selectedMaterial, setSelectedMaterial] = useState<string>('')
-      const [isDialogOpen, setIsDialogOpen] = useState(true)
+      const [isDialogOpen, setIsDialogOpen] = useState(false)
       const [newMaterial, setNewMaterial] = useState('')
       const [materialInput, setMaterialInput] = useState('')
 

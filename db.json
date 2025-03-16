@@ -11,7 +11,7 @@
       "advanceMoney": 0,
       "active": true,
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "31 993386467",
@@ -26,9 +26,8 @@
       "workingDays": 10,
       "additionalMoney": 80.9,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "31 993386467",
@@ -43,9 +42,8 @@
       "workingDays": 10,
       "additionalMoney": 80.9,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "04992085601",
@@ -60,9 +58,8 @@
       "workingDays": 10,
       "additionalMoney": 80.9,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "31 993386467",
@@ -77,9 +74,8 @@
       "workingDays": 4,
       "additionalMoney": 0,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "31 997999292",
@@ -94,9 +90,8 @@
       "workingDays": 9,
       "additionalMoney": 220,
       "advanceMoney": 660,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": null,
@@ -111,9 +106,8 @@
       "workingDays": 4,
       "additionalMoney": 0,
       "advanceMoney": 71.4,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "13135114635",
@@ -128,9 +122,8 @@
       "workingDays": 9,
       "additionalMoney": 119,
       "advanceMoney": 567.6,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "31 997463708",
@@ -145,9 +138,8 @@
       "workingDays": 9,
       "additionalMoney": 0,
       "advanceMoney": 400,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": "70999345206",
@@ -162,9 +154,8 @@
       "workingDays": 2,
       "additionalMoney": 0,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": null,
@@ -179,9 +170,8 @@
       "workingDays": 5.5,
       "additionalMoney": 0,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": null,
@@ -196,9 +186,8 @@
       "workingDays": 1,
       "additionalMoney": 0,
       "advanceMoney": 0,
-      
       "rate": 3,
-      "obs":"dormiu no trabalho",
+      "obs": "dormiu no trabalho",
       "date": "2025-03-04",
       "discount": 0,
       "pixKey": null,
@@ -211,7 +200,7 @@
       "name": "Fornecedor A",
       "phone": "31999999999",
       "owner": "Joao",
-      "active": false,
+      "active": true,
       "date": "2025-03-04",
       "obs": "ficou devendo",
       "rate": 4,
@@ -241,12 +230,9 @@
       "name": "Fornecedor B",
       "phone": "31999999999",
       "owner": "Joao",
-      
-      "rate": 3,
-      "obs":"dormiu no trabalho",
-      "date": "2025-03-04",
-      "obs": "ficou devendo",
       "rate": 4,
+      "obs": "ficou devendo",
+      "date": "2025-03-04",
       "materials": [
         {
           "id": "4",
@@ -273,12 +259,9 @@
       "name": "Fornecedor C",
       "phone": "31999999999",
       "owner": "Joao",
-      
-      "rate": 3,
-      "obs":"dormiu no trabalho",
-      "date": "2025-03-04",
-      "obs": "ficou devendo",
       "rate": 4,
+      "obs": "ficou devendo",
+      "date": "2025-03-04",
       "materials": [
         {
           "id": "6",
@@ -299,12 +282,9 @@
       "name": "Fornecedor A",
       "phone": "31999999999",
       "owner": "Joao",
-      
-      "rate": 3,
-      "obs":"dormiu no trabalho",
-      "date": "2025-03-04",
-      "obs": "ficou devendo",
       "rate": 4,
+      "obs": "ficou devendo",
+      "date": "2025-03-04",
       "materials": [
         {
           "id": "7",
@@ -329,23 +309,8 @@
       "name": "Pedra"
     },
     {
-      "name": "Fornecedor A",
-      "phone": "31999999999",
-      "owner": "Joao",
-      
-      "rate": 3,
-      "obs":"dormiu no trabalho",
-      "materials": [
-        {
-          "id": "7",
-          "name": "Telhas",
-          "quantity": 10,
-          "unitPrice": 80
-        }
-      ],
-      "rate": 4,
-      "obs": "ficou devendo",
-      "id": "4"
+      "id": "4",
+      "name": "areia"
     },
     {
       "id": "5",
@@ -371,5 +336,260 @@
       "id": "10",
       "name": "Outros"
     }
+  ],
+  "Orcamentos":[
+    {
+      "id": "1",
+      "name": "Orçamento A",
+      "supplierId": "1",
+      "supplierName": "Fornecedor A",
+      "date": "2025-03-04",
+      "total": 2300,
+      "status": "pendente",
+      "jobId": "1",
+      "jobName": "Obra A",
+      "materials": [
+        {
+          "id": "1",
+          "name": "Cimento",
+          "unity": "saco",
+          "quantity": 10,
+          "unitPrice": 80,
+          "total": 800
+        },
+        {
+          "id": "2",
+          "name": "Terra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 50,
+          "total"	: 500
+        },
+        {
+          "id": "3",
+          "name": "Pedra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 100,
+          "total": 1000
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Orçamento B",
+      "supplierId": "2",
+      "supplierName": "Fornecedor B",
+      "date": "2025-03-04",
+      "total": 2300,
+      "status": "pendente",
+      "jobId": "2",
+      "jobName": "Obra B",
+      "materials": [
+        {
+          "id": "4",
+          "name": "Madeira",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 80,
+          "total": 800
+        },
+        {
+          "id": "5",
+          "name": "Metais",
+          "unity": "kg",
+          "quantity": 10,
+          "unitPrice": 50,
+          "total": 500
+        },
+        {
+          "id": "8",
+          "name": "Tintas",
+          "unity": "l",
+          "quantity": 10,
+          "unitPrice": 100,
+          "total": 1000
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Orçamento C",
+      "supplierId": "3",
+      "supplierName": "Fornecedor C",
+      "date": "2025-03-04",
+      "total": 2300,
+      "status": "pendente",
+      "jobId": "3",
+      "jobName": "Obra C",
+      "materials": [
+        {
+          "id": "6",
+          "name": "Tijolos",
+          "unity": "milheiro",
+          "quantity": 10,
+          "unitPrice": 80,
+          "total": 800
+        },
+        {
+          "id": "2",
+          "name": "Terra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 50,
+          "total": 500
+        }
+      ]
+    }
+  ],
+  "financeiro":[
+    {
+      "id": "1",
+      "name": "Conta A",
+      "date": "2025-03-04",
+      "value": 2230.9,
+      "status": "pago",
+      "supplierId": "1",
+      "supplierName": "Fornecedor A",
+      "jobId": "1",
+      "jobName": "Obra A",
+      "materials":[
+        {
+          "id": "1",
+          "name": "Cimento"
+        },
+        {
+          "id": "2",
+          "name": "Terra"
+        },
+        {
+          "id": "3",
+          "name": "Pedra"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "conta B",
+      "date": "2025-03-04",
+      "value": 2230.9,
+      "status": "pendente",
+      "supplierId": "2",
+      "supplierName": "Fornecedor B",
+      "jobId": "2",
+      "jobName": "Obra B",
+      "materials":[
+        {
+          "id": "4",
+          "name": "Madeira"
+        },
+        {
+          "id": "5",
+          "name": "Metais"
+        },
+        {
+          "id": "8",
+          "name": "Tintas"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Valdeci",
+      "date": "2025-03-04",
+      "value": 2230.9,
+      "status": "pago",
+      "supplierId": "3",
+      "supplierName": "Fornecedor C",
+      "jobId": "3",
+      "jobName": "Obra C",
+      "materials":[
+        {
+          "id": "6",
+          "name": "Tijolos"
+        },
+        {
+          "id": "2",
+          "name": "Terra"
+        }
+      ]
+    }
+  ],
+  "compare":[
+    {
+      "id": "1",
+      "name": "Orçamento A",
+      "supplierId": "1",
+      "supplierName": "Fornecedor A",
+      "date": "2025-03-04",
+      "total": 2300,
+      "status": "pendente",
+      "jobId": "1",
+      "jobName": "Obra A",
+      "materials": [
+        {
+          "id": "1",
+          "name": "Cimento",
+          "unity": "saco",
+          "quantity": 10,
+          "unitPrice": 80,
+          "total": 800
+        },
+        {
+          "id": "2",
+          "name": "Terra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 50,
+          "total"	: 500
+        },
+        {
+          "id": "3",
+          "name": "Pedra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 100,
+          "total": 1000
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Orçamento B",
+      "supplierId": "1",
+      "supplierName": "Fornecedor A",
+      "date": "2025-03-04",
+      "total": 2300,
+      "status": "pendente",
+      "jobId": "1",
+      "jobName": "Obra A",
+      "materials": [
+        {
+          "id": "1",
+          "name": "Cimento",
+          "unity": "saco",
+          "quantity": 10,
+          "unitPrice": 80,
+          "total": 800
+        },
+        {
+          "id": "2",
+          "name": "Terra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 50,
+          "total"	: 500
+        },
+        {
+          "id": "3",
+          "name": "Pedra",
+          "unity": "m³",
+          "quantity": 10,
+          "unitPrice": 100,
+          "total": 1000
+        }
+      ]
+    }
   ]
+  
 }
