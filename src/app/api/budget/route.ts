@@ -42,7 +42,7 @@ export async function PUT(req: Request) {
   
 
 export async function GETBudgets(){
-  const url = 'http://localhost:3000'
+  const url = process.env.NEXT_PUBLIC_SERVER_URL
   const response = await fetch(`${url}/Orcamentos`,{
     next:{
       revalidate: 1,
@@ -53,7 +53,7 @@ export async function GETBudgets(){
 }
 
 export async function GETBudgetsCompare(){
-  const url = 'http://localhost:3000'
+  const url = process.env.NEXT_PUBLIC_SERVER_URL
   const response = await fetch(`${url}/compare`,{
     next:{
       revalidate: 1,

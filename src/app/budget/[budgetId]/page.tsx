@@ -1,5 +1,5 @@
 'use client'
-import { BudgetsProps } from '@/app/@types/typs'
+import { BudgetsProps } from '@/app/@types/type'
 import { GETBudgetsCompare } from '@/app/api/budget/route'
 import { CardBudget } from '@/components/CardBudget'
 import { SelectMaterial } from '@/components/SelectMaterial'
@@ -24,7 +24,9 @@ export default function Compare() {
       const response = await GETBudgetsCompare()
       setBudgetsForCompare(response)
     }
-    if (!isCompare) getBudgets()
+    if (!isCompare) {
+      getBudgets()
+    }
   }, [])
   return (
     <main className="overflow-x-hidden w-full px-2">
@@ -50,19 +52,15 @@ export default function Compare() {
           </div>
         </div>
       ) : (
-        <div className=' flex flex-col items-center gap-5'>
+        <div className=" flex flex-col items-center gap-5">
           <div className=" flex  justify-center gap-4">
             {budgetsForCompare.map((budget: BudgetsProps) => (
               <CardBudget key={budget.id} {...budget} />
             ))}
-           
           </div>
-          <Button
-              onClick={() => push('/budget/0')}
-              className="cursor-pointer"
-            >
-              Resetar
-            </Button>
+          <Button onClick={() => push('/budget/0')} className="cursor-pointer">
+            Resetar
+          </Button>
         </div>
       )}
     </main>

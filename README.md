@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+ public StatusEnum Status { get; private set; } = StatusEnum.Pending;    
+ public string Name { get; private set; }
+ public CollaboratorRuleEnum Role { get; private set; }
+ public decimal DailyPrice { get; private set; }
+ public int WorkingDays { get; private set; }
+ public DateOnly PayDay { get; private set; }
+ public int TotalFifteenDays { get; private set; }
+ public string PixKey { get; private set; }
+ public decimal? AdditionalMoney { get; private set; }
+ public decimal? AdvanceMoney { get; private set; }
+ public decimal? Discount { get; private set; }
+ public decimal? TotalToPay { get; private set; }
+ public bool Active { get; private set; } = true;
+ public int Rating { get; private set; } = 0;
+ public string? Comment { get; private set; }

@@ -6,7 +6,6 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-  SortingState,
   getSortedRowModel,
   ColumnFiltersState,
   getFilteredRowModel,
@@ -39,7 +38,7 @@ export function DataTable<TData, TValue>({
   columns,
   data
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState([{ id: "active", desc: false }]); // Ordenação inicial
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const columnTranslations: Record<string, string> = {

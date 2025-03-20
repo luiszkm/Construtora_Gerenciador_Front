@@ -42,7 +42,7 @@ export async function PUT(req: Request) {
   
 
 export async function GETMaterials(){
-  const url = 'http://localhost:3000'
+  const url = process.env.NEXT_PUBLIC_SERVER_URL
   const response = await fetch(`${url}/materials`,{
     next:{
       revalidate: 1,

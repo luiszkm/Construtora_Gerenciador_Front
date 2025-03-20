@@ -1,7 +1,6 @@
 'use client'
-import { BrickWall, CircleDollarSign, House, LogOut, PlusCircle, Truck, Users, WalletCards } from 'lucide-react'
+import {  CircleDollarSign, House, LogOut, PlusCircle, Truck, Users, WalletCards } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export function Sidebar() {
  

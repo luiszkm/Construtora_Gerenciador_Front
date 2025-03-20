@@ -2,13 +2,13 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Thead } from '@/components/Thead'
-import { Rate } from '@/components/Rate'
 import Link from 'next/link'
-import {  SupplierProps } from '../@types/type'
-import { ActionSupplierCell } from './cells/ActionSupplierCell'
-import { MaterialsSupplierCell } from './cells/MaterialsSupplierCell'
+import { FinanceProps, MaterialsProps } from '../@types/type'
+import { formatCurrencyInput } from '@/utils/masks'
+import { ActionFinanceCell } from './cells/ActionFinanceCell'
 
-export const columns: ColumnDef<SupplierProps>[] = [
+
+export const columns: ColumnDef<FinanceProps>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
@@ -18,14 +18,14 @@ export const columns: ColumnDef<SupplierProps>[] = [
           valueFilter={String(
             column.getFilterValue() === undefined ? '' : column.getFilterValue()
           )}
-          columnName="Nome"
+          columnName="Compra"
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
       )
     }
   },
   {
-    accessorKey: 'phone',
+    accessorKey: 'invoice',
     header: ({ column }) => {
       return (
         <Thead
@@ -33,14 +33,14 @@ export const columns: ColumnDef<SupplierProps>[] = [
           valueFilter={String(
             column.getFilterValue() === undefined ? '' : column.getFilterValue()
           )}
-          columnName="Contato"
+          columnName="Conta"
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
       )
     }
   },
   {
-    accessorKey: 'owner',
+    accessorKey: 'supplierName',
     header: ({ column }) => {
       return (
         <Thead
@@ -48,9 +48,17 @@ export const columns: ColumnDef<SupplierProps>[] = [
           valueFilter={String(
             column.getFilterValue() === undefined ? '' : column.getFilterValue()
           )}
-          columnName="Atendente"
+          columnName="Fornecedor"
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
+      )
+    },
+    cell: ({ row }) => {
+      const supplier = row.original
+      return (
+        <Link href={`supplier/${supplier.supplierId}`}>
+          {supplier.supplierName}
+        </Link>
       )
     }
   },
@@ -68,8 +76,17 @@ export const columns: ColumnDef<SupplierProps>[] = [
         />
       )
     },
-    cell: ({ row }) => <MaterialsSupplierCell row={row} />,
-    filterFn: (row, columnId, filterValue) => {
+    cell: ({ row }) => {
+      const finance: FinanceProps = row.original
+      return (
+        <div className="text-right flex items-center gap-2 font-medium">
+          {finance.materials.map((material: MaterialsProps, index: number) => (
+            <div key={index}>{material.name}</div>
+          ))}
+        </div>
+      )
+    },
+    filterFn: (row, filterValue) => {
       if (!filterValue) return true
       const materials = row.original.materials.map(m => m.name.toLowerCase())
       return materials.some(material =>
@@ -78,7 +95,7 @@ export const columns: ColumnDef<SupplierProps>[] = [
     }
   },
   {
-    accessorKey: 'rate',
+    accessorKey: 'jobName',
     header: ({ column }) => {
       return (
         <Thead
@@ -86,14 +103,10 @@ export const columns: ColumnDef<SupplierProps>[] = [
           valueFilter={String(
             column.getFilterValue() === undefined ? '' : column.getFilterValue()
           )}
-          columnName="Avaliação"
+          columnName="Fase"
           onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         />
       )
-    },
-    cell: ({ row }) => {
-      const rate = parseInt(row.getValue('rate'))
-      return <Rate rate={rate} obs={row.original.obs} />
     }
   },
   {
@@ -115,43 +128,32 @@ export const columns: ColumnDef<SupplierProps>[] = [
     }
   },
   {
-    accessorKey: 'address',
-    header: 'Endereço',
+    accessorKey: 'value',
+    header: 'Valor',
     cell: ({ row }) => {
-      const address = row.getValue('address') as string
-      return <span>{address}</span>
+      const value = row.getValue('value')
+      return <span>{formatCurrencyInput(String(value))}</span>
     }
   },
   {
-    accessorKey: 'email',
-    header: 'Email'
+    accessorKey: 'date',
+    header: 'Data'
   },
   {
-    accessorKey: 'active',
-    header: ({ column }) => {
-      return (
-        <Thead
-          onChange={e => column.setFilterValue(e.target.value)}
-          valueFilter={String(
-            column.getFilterValue() === undefined ? '' : column.getFilterValue()
-          )}
-          columnName="Ativo"
-          onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        />
-      )
-    },
+    accessorKey: 'status',
+    header: 'Status',
     cell: ({ row }) => {
       const active = row.getValue('active')
       return active ? (
-        <span className="text-green-500">Sim</span>
+        <span className="text-green-500">Pago</span>
       ) : (
-        <span className="text-red-500">Não</span>
+        <span className="text-red-500">Pendente</span>
       )
     }
   },
 
   {
     id: 'actions',
-    cell: ({ row }) =>  <ActionSupplierCell row={row} />
+    cell: ({ row }) =>  <ActionFinanceCell row={row} />,
   }
 ]
